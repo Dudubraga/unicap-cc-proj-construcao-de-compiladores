@@ -1,0 +1,56 @@
+public
+class
+id, 1   -> codigo_fonte
+{
+public
+static
+void
+id, 2   ->  main
+(
+String
+[
+]
+id, 3   ->  args
+)
+{
+int
+id, 4   ->  i
+,
+id, 5   ->  fat
+=
+num, 4
+;
+for
+(
+id, 4
+=
+num, 1
+;
+id, 4
+<
+=
+id, 5
+;
+id, 4
++
++
+)
+{
+id, 5
+=
+id, 5
+*
+id, 4
+;
+}
+System
+.
+out
+.
+println
+(
+id, 5
+)
+;
+}
+}
