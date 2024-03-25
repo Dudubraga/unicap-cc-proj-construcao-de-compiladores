@@ -1,5 +1,4 @@
-# Compiladores
-Construção de compiladores
+# Construção de Compiladores
 
 A primeira fase deste projeto é a implementação do Analisador Léxico. Este componente é fundamental para a estruturação do compilador, sendo responsável por ler os caracteres do código-fonte, agrupá-los em lexemas e produzir uma sequência de tokens. Estes tokens são identificados com base em padrões definidos por expressões regulares e são categorizados para facilitar as fases subsequentes do processo de compilação.
 Para o projeto em questão, o analisador léxico deve reconhecer um conjunto específico de tokens, conforme o alfabeto definido:
