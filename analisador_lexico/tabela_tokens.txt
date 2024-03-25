@@ -1,0 +1,164 @@
+public
+class
+id, 1 (questao02)
+{
+public
+static
+void
+id, 2 (extenso)
+(
+int
+id, 3 (dia)
+,
+int
+id, 4 (mes)
+,
+int
+id, 5 (ano)
+)
+{
+String
+[
+]
+id, 6 (meses)
+=
+{
+const_TXT ("janeiro")
+,
+const_TXT ("fevereiro")
+,
+const_TXT ("março")
+,
+const_TXT ("abril")
+,
+const_TXT ("maio")
+,
+const_TXT ("junho")
+,
+const_TXT ("julho")
+,
+const_TXT ("agosto")
+,
+const_TXT ("setembro")
+,
+const_TXT ("outubro")
+,
+const_TXT ("novembro")
+,
+const_TXT ("dezembro")
+}
+;
+System
+.
+out
+.
+println
+(
+id, 3 (dia)
++
+const_TXT (" de ")
++
+id, 6 (meses)
+[
+id, 4 (mes)
+-
+NUM_INT (1)
+]
++
+const_TXT (" de ")
++
+id, 5 (ano)
+)
+;
+}
+public
+static
+void
+main
+(
+String
+[
+]
+id, 7 (args)
+)
+{
+String
+id, 8 (data)
+=
+const_TXT ("28/07/2004")
+;
+String
+[
+]
+id, 9 (separada)
+=
+id, 8 (data)
+.
+id, 10 (split)
+(
+const_TXT ("/")
+)
+;
+int
+[
+]
+id, 11 (datas)
+=
+id, 12 (new)
+int
+[
+NUM_INT (3)
+]
+;
+for
+(
+int
+id, 13 (i)
+=
+NUM_INT (0)
+;
+id, 13 (i)
+<
+NUM_INT (3)
+;
+id, 13 (i)
++
++
+)
+{
+id, 11 (datas)
+[
+id, 13 (i)
+]
+=
+id, 14 (Integer)
+.
+id, 15 (parseInt)
+(
+id, 9 (separada)
+[
+id, 13 (i)
+]
+)
+;
+}
+id, 2 (extenso)
+(
+id, 11 (datas)
+[
+NUM_INT (0)
+]
+,
+id, 11 (datas)
+[
+NUM_INT (1)
+]
+,
+id, 11 (datas)
+[
+NUM_INT (2)
+]
+)
+;
+}
+}
