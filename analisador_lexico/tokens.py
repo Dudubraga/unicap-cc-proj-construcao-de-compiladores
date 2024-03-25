@@ -4,7 +4,7 @@ operadores = ["=", "+", "-", "/", "*", "%", "&&", "||", "!"]
 
 comparacao = [">", ">=", "<", "<=", "==", "!="]
 
-simbolos_especiais = ["(", ")", ",", "[", "]", ";", "{", "}" , "."]
+simbolos_especiais = ["(", ")", ",", "[", "]", ";", "{", "}" , ".", "#"]
 
 identificadores = []
 lista_tokens = []
@@ -17,7 +17,7 @@ npt = '/home/henriquefranca/github/compiladores/codigo_fonte.txt'
 
 arquivo = 'codigo_fonte.txt'
 index = 1
-
+comentario = False
 try:
     with open(arquivo,'r') as codigo:
         linhas = codigo.readlines()
@@ -30,7 +30,7 @@ for s in linhas:
         current = str(s[0]) # string recebe o primeiro caractér de s 
         s = s[1:] # o primeiro caractér é removido de s
         # IF para reconhecer Números Inteiros e Decimais
-        if current.isnumeric(): 
+        if current.isnumeric() and not comentario: 
             while s[0].isnumeric() or s[0] == '.':
                 current += str(s[0])
                 s = s[1:]
@@ -45,12 +45,12 @@ for s in linhas:
 
         
         # IF para reconhecer Simbolos Especiais
-        elif current in simbolos_especiais: 
+        elif current in simbolos_especiais and not comentario: 
             lista_tokens.append(current)
             print(current)
 
         # IF para reconhecer Strings
-        elif current == '"': 
+        elif current == '"' and not comentario: 
             while s[0] != '"':
                 current += s[0]
                 s = s[1:]
@@ -61,7 +61,7 @@ for s in linhas:
             print("const_TXT (" + current + ")")
                         
         # IF para reconhecer Comparadores 
-        elif current in comparacao or (len(s) > 0 and (current + s[0] == "==" or current + s[0] == "!=")): 
+        elif current in comparacao or (len(s) > 0 and (current + s[0] == "==" or current + s[0] == "!=") and not comentario): 
             if current + s[0] == "==" or current + s[0] == "!=":
                 current += s[0]
                 s = s[1:]
@@ -71,8 +71,20 @@ for s in linhas:
             lista_tokens.append(current)
             print(current)
 
+        # IF para reconhecer Comentário em Linha
+        elif (current == '/' and s[0] == '/') and not comentario:
+            break
+        # IF para reconhecer o ínicio do Comentário Com Várias Linhas
+        elif current == "/" and s[0] == "*":
+            comentario = True
+            s = s[1:]          
+        # IF para reconhecer o fim do Comentário de Várias Linhas
+        elif current == "*" and s[0] == "/":
+            comentario = False
+            s = s[1:]
+
         # IF para reconhecer Operadores
-        elif current in operadores: 
+        elif current in operadores and not comentario: 
             if (current == '&' or current == '|') and current == s[0]:
                 current = current + s[0]
                 s = s[1:]
@@ -80,7 +92,7 @@ for s in linhas:
             print(current)
                 
         # IF para reconhecer Palavras Reservadas e IDs de variáveis
-        elif current != " ": 
+        elif current != " " and not comentario: 
             while len(s) > 0 and (s[0] not in operadores) and (s[0] not in comparacao) and (s[0] not in simbolos_especiais) and s[0] != ' ':
                 current += str(s[0])
                 s = s[1:]

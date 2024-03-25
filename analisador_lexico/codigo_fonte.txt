@@ -1,4 +1,9 @@
 public class questao02 {
+    /* comentario kkkkkkkkk
+    asdasd
+    asdasdasd  
+    // comentario do comentario
+    */
     public static void extenso(int dia, int mes, int ano){
         String[] meses = {"janeiro", "fevereiro", "março", "abril",
             "maio", "junho", "julho", "agosto", "setembro", "outubro",
