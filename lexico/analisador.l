@@ -16,7 +16,7 @@ COMENTARIO_F[*/]
 %%
 if|else {printf("[%s] -> CONDICIONAL\n", yytext);}
 for|while {printf("[%s] -> REPETICAO\n", yytext);}
-int|float|double {printf("[%s] -> TIPO DA VARIAVEL\n", yytext);}
+int|float|double|char|boolean {printf("[%s] -> TIPO DA VARIAVEL\n", yytext);}
 main {printf("[%s] -> FUNCAO PRINCIPAL\n", yytext);}
 #include {printf("[%s] -> FUNCAO DE ENTRADA DA BIBLIOTECA\n",yytext);}
 printf {printf("[%s] -> FUNCAO DE SAIDA\n", yytext);}
