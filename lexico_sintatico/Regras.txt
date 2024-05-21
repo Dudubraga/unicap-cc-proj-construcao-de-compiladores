@@ -22,7 +22,7 @@ Bloco : { Declaracao }
 Comentario : // Qualquer texto ate o final da linha
 Comentario : /* Qualquer texto ate */
 Expressoes : Atribuicao
-Atribuicao : D = Expressao
+Atribuicao : ID = Expressao
 Atribuicao : ID += Expressao
 Atribuicao : ID -= Expressao
 Atribuicao : ID *= Expressao
