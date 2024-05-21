@@ -2,16 +2,14 @@ from ply import lex
 
 # Lista de tokens
 tokens = (
-    'PLUS', 'MINUS', 'TIMES', 'DIVIDE',
-    'LPAREN', 'RPAREN', 'ID', 'EQUALS',
-    'TIPO', 'SEMICOLON', 'LBRACE', 'RBRACE',
-    'COMMA', 'COMMENT', 'LBRACKET', 'RBRACKET',
-    'DOTDOTDOT', 'OROR', 'ANDAND', 'NOT',
-    'GREATER', 'LESS', 'GREATEREQUAL', 'LESSEQUAL',
-    'NOTEQUAL', 'EQUAL', 'MODULO', 'DOT',
-    'ARROW', 'NUM_INT', 'NUM_DEC', 'TEXTO',
-    'PLUSEQUAL', 'MINUSEQUAL', 'TIMESEQUAL', 'DIVEQUAL',
-    'MODEQUAL', 'ANDANDEQUAL', 'OROREQUAL', 
+    'ID', 'TIPO', 'NUM_INT', 'NUM_DEC', 'TEXTO',
+    'SEMICOLON', 'DOT', 'COMMA', 
+    'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'EQUALS', 'MODULO', 
+    'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACKET', 'RBRACKET',
+    'OROR', 'ANDAND', 'NOT', 'GREATER', 'LESS', 'GREATEREQUAL', 'LESSEQUAL', 'NOTEQUAL', 'EQUAL',
+    'PLUSEQUAL', 'MINUSEQUAL', 'TIMESEQUAL', 'DIVEQUAL', 'MODEQUAL', 'ANDANDEQUAL', 'OROREQUAL',
+    'COMMENT', 'MULTICOMMENT'
+    'DOTDOTDOT', 
 )
 
 # Regras para cada token
@@ -40,7 +38,6 @@ t_NOTEQUAL = r'!='
 t_EQUAL = r'=='
 t_MODULO = r'%'
 t_DOT = r'.'
-t_ARROW = r'->'
 t_PLUSEQUAL = r'\+='
 t_MINUSEQUAL = r'-='
 t_TIMESEQUAL = r'\*='
@@ -49,32 +46,36 @@ t_MODEQUAL = r'%='
 t_ANDANDEQUAL = r'&&='
 t_OROREQUAL = r'\|\|='
 
-# Regra para tipo
+#regra pros tipos
 def t_TIPO(t):
-    r'int|float|double|char|boolean'
+    r'int|float|double|char|boolean|'
     t.value = str(t.value)
     return t
 
-# Regra para números
+#regra pra numeros do tipo float
 def t_NUM_DEC(t):
     r'\d+\.\d+'
     t.value = float(t.value)
     return t
-
+#regra pra numeros do tipo inteiro
 def t_NUM_INT(t):
     r'\d+'
     t.value = int(t.value)
     return t
 
-# Regra para id
+#regra pra id
 def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z0-9_]*'
+    r'[a-zA-z_][a-zA-Z0-9_]*'
     t.value = str(t.value)
     return t
 
-# Expressão regular para comentários/texto
+# Expressao regular para comentarios/texto em linha
 def t_COMMENT(t):
     r'//.*'
+    return t
+# Expressao regular para comentarios/texto multi-linhas
+def t_MULTICOMMENT(t):
+    r'/\*[\s\S]*?\*/'
     return t
 
 def t_TEXTO(t):
@@ -82,13 +83,12 @@ def t_TEXTO(t):
     t.value = t.value[1:-1]  # Remover as aspas da string
     return t
 
-# Ignorar caracteres em branco
-t_ignore = ' \t\n'
+t_ignore = ' \t\n' # ignora caracter em branco
 
-# Manipulador de erros
+# ERROS
 def t_error(t):
-    print(f"Caractere inesperado na linha : {t.value[0]}")
+    print(f"Caractere indesejado na linha : {t.value[0]}")
     t.lexer.skip(1)
 
-# Criar o analisador léxico
-lexer = lex.lex()
+#criando o analisador lexico
+lexico = lex.lex()
