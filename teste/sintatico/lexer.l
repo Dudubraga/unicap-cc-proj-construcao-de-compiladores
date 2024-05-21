@@ -2,6 +2,9 @@
 #include "parser.tab.h"
 %}
 
+/* Declaração de estados */
+%x COMMENT
+
 %%
 "int"           return INT;
 "float"         return FLOAT;
@@ -44,16 +47,20 @@
 ","             return COMMA;
 "."             return DOT;
 "->"            return ARROW;
+/* Comentários */
 "/*"            { BEGIN(COMMENT); }
 <COMMENT>"*/"   { BEGIN(INITIAL); }
-<COMMENT>.      /* ignore comments */
-<COMMENT>\n     /* ignore comments */
-"//".*          /* ignore comments */
+<COMMENT>.      /* ignora comentários */
+<COMMENT>\n     /* ignora comentários */
+"//".*          /* ignora comentários */
+/* Literais e Identificadores */
 [0-9]+          return NUM_INT;
 [0-9]+"."[0-9]+ return NUM_DEC;
 [a-zA-Z_][a-zA-Z0-9_]* return IDENTIFIER;
-\"[^\"]*\"      { yylval.string = strdup(yytext); return STRING; }
-[ \t\n]+        /* ignore whitespace */;
+\"[^\"]*\"      { yylval.sval = strdup(yytext); return STRING; }
+/* Espaços em branco */
+[ \t\n]+        /* ignora espaços em branco */;
+/* Qualquer outro caractere */
 .               return yytext[0];
 %%
 
