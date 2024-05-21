@@ -1,110 +1,52 @@
 %{
+// Seção de código entre %{ e %} é inserida diretamente no código C gerado
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-void yyerror(const char *s);
-int yylex();
+#include "y.tab.h"
+extern char *yytext;  // Declaração externa de yytext para uso em y.tab.c
+int yylex(void);      // Função gerada por Flex para análise léxica
+int yyerror(const char *s);  // Função chamada em caso de erro de análise
 %}
 
-%union {
-    int ival;
-    double dval;
-    char *sval;
-}
-
-%token <ival> NUM_INT
-%token <dval> NUM_DEC
-%token <sval> STRING
-%token <sval> IDENTIFIER
-%token INT FLOAT DOUBLE CHAR BOOLEAN
-%token IF ELSE WHILE FOR SWITCH CASE DEFAULT BREAK CONTINUE RETURN STRUCT
-%token AND OR NOT EQ NEQ GE LE GT LT
-%token PLUS MINUS TIMES DIVIDE MOD ASSIGN
-%token LPAREN RPAREN LBRACE RBRACE LBRACKET RBRACKET SEMICOLON COMMA DOT ARROW
+// Declaração dos tokens utilizados pelo analisador léxico e sintático
+%token ADD SUB MUL DIV NUMBER LPAREN RPAREN
 
 %%
 
-program:
-    declaration_list
-;
-
-declaration_list:
-    declaration_list declaration
-    | /* empty */
-;
-
-declaration:
-    variable_declaration
-    | function_declaration
-    | struct_declaration
-    | comment
-;
-
-variable_declaration:
-    type IDENTIFIER SEMICOLON
-    | type IDENTIFIER ASSIGN expression SEMICOLON
-;
-
-type:
-    INT | FLOAT | DOUBLE | CHAR | BOOLEAN
-;
-
-function_declaration:
-    type IDENTIFIER LPAREN parameters RPAREN block
-;
-
-parameters:
-    parameter
-    | parameter COMMA parameters
-    | /* empty */
-;
-
-parameter:
-    type IDENTIFIER
-    | type IDENTIFIER LBRACKET RBRACKET
-    | type DOTDOTDOT IDENTIFIER
-;
-
-block:
-    LBRACE declaration_list RBRACE
-;
-
-comment:
-    // STRING
-    | /* STRING */
-;
-
+// Regras de produção para a gramática da linguagem
 expression:
-    assignment
-;
+    expression ADD term
+    | expression SUB term
+    | term
+    ;
 
-assignment:
-    IDENTIFIER ASSIGN expression
-    | IDENTIFIER PLUS ASSIGN expression
-    | IDENTIFIER MINUS ASSIGN expression
-    | IDENTIFIER TIMES ASSIGN expression
-    | IDENTIFIER DIVIDE ASSIGN expression
-    | IDENTIFIER MOD ASSIGN expression
-    | IDENTIFIER AND ASSIGN expression
-    | IDENTIFIER OR ASSIGN expression
-;
+term:
+    term MUL factor
+    | term DIV factor
+    | factor
+    ;
 
-struct_declaration:
-    STRUCT IDENTIFIER LBRACE variable_declaration_list RBRACE SEMICOLON
-;
-
-variable_declaration_list:
-    variable_declaration_list variable_declaration
-    | /* empty */
-;
+factor:
+    NUMBER
+    | LPAREN expression RPAREN
+    ;
 
 %%
 
-void yyerror(const char *s) {
-    fprintf(stderr, "Error: %s\n", s);
+// Função principal
+int main() {
+    yyparse();  // Chamada da função principal de análise sintática
+    return 0;
 }
 
-int main() {
-    return yyparse();
+// Função chamada em caso de erro de análise
+int yyerror(const char *s) {
+    fprintf(stderr, "Erro de análise: %s\n", s);
+    fprintf(stderr, "Último token lido: %s\n", yytext);
+    fprintf(stderr, "Local do erro: %s\n", yytext);
+    return 0;
+}
+
+// Função chamada para indicar o fim do arquivo durante a análise léxica
+int yywrap(void) {
+    return 1;
 }
