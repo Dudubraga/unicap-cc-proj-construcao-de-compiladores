@@ -1,52 +1,69 @@
 %{
-// Seção de código entre %{ e %} é inserida diretamente no código C gerado
 #include <stdio.h>
-#include "y.tab.h"
-extern char *yytext;  // Declaração externa de yytext para uso em y.tab.c
-int yylex(void);      // Função gerada por Flex para análise léxica
-int yyerror(const char *s);  // Função chamada em caso de erro de análise
+#include <stdlib.h>
+extern int yylex();
+void yyerror(const char *s);
 %}
 
-// Declaração dos tokens utilizados pelo analisador léxico e sintático
-%token ADD SUB MUL DIV NUMBER LPAREN RPAREN
+%token INT FLOAT DOUBLE CHAR BOOLEAN STRUCT
+%token IF ELSE WHILE FOR SWITCH CASE DEFAULT
+%token BREAK CONTINUE RETURN
+%token NUM_INT NUM_DEC TEXTO ID
 
 %%
 
-// Regras de produção para a gramática da linguagem
-expression:
-    expression ADD term
-    | expression SUB term
-    | term
-    ;
+programa : /* empty */
+         | programa declaracao
+         ;
 
-term:
-    term MUL factor
-    | term DIV factor
-    | factor
-    ;
+declaracao : declaracaoVariavel
+           | declaracaoFuncao
+           | declaracaoEstrutura
+           | comentario
+           ;
 
-factor:
-    NUMBER
-    | LPAREN expression RPAREN
-    ;
+declaracaoVariavel : tipo ID ';'
+                   | tipo ID '=' expressao ';'
+                   ;
+
+tipo : INT
+     | FLOAT
+     | DOUBLE
+     | CHAR
+     | BOOLEAN
+     ;
+
+declaracaoFuncao : tipo ID '(' parametros ')' bloco
+                 ;
+
+parametros : /* empty */
+           | parametro
+           | parametros ',' parametro
+           ;
+
+parametro : tipo ID
+          | tipo ID '[]'
+          | tipo ID '...'
+          ;
+
+bloco : '{' declaracoes '}'
+      ;
+
+declaracoes : /* empty */
+            | declaracoes declaracao
+            ;
+
+comentario : /* empty */
+           ;
+
+/* ... Restante das regras ... */
 
 %%
 
-// Função principal
-int main() {
-    yyparse();  // Chamada da função principal de análise sintática
-    return 0;
+void yyerror(const char *s) {
+  fprintf(stderr, "Erro de análise: %s\n", s);
 }
 
-// Função chamada em caso de erro de análise
-int yyerror(const char *s) {
-    fprintf(stderr, "Erro de análise: %s\n", s);
-    fprintf(stderr, "Último token lido: %s\n", yytext);
-    fprintf(stderr, "Local do erro: %s\n", yytext);
-    return 0;
-}
-
-// Função chamada para indicar o fim do arquivo durante a análise léxica
-int yywrap(void) {
-    return 1;
+int main(void) {
+  return yyparse();
 }
