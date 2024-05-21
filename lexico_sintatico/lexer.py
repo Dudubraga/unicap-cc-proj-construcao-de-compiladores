@@ -8,9 +8,25 @@ tokens = (
     'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACKET', 'RBRACKET',
     'OROR', 'ANDAND', 'NOT', 'GREATER', 'LESS', 'GREATEREQUAL', 'LESSEQUAL', 'NOTEQUAL', 'EQUAL',
     'PLUSEQUAL', 'MINUSEQUAL', 'TIMESEQUAL', 'DIVEQUAL', 'MODEQUAL', 'ANDANDEQUAL', 'OROREQUAL',
-    'COMMENT', 'MULTICOMMENT'
-    'DOTDOTDOT', 
+    'COMMENT', 'MULTICOMMENT',
+    'DOTDOTDOT', 'WHILE' , 'FOR', 'IF', 'ELSE', 'RETURN', 'STRUCT'
 )
+
+keywords = {
+    'int': 'INT',
+    'float': 'FLOAT',
+    'char': 'CHAR',
+    'boolean': 'BOOLEAN',
+    'void': 'VOID',
+    'if': 'IF',
+    'else': 'ELSE',
+    'for': 'FOR',
+    'while': 'WHILE',
+    'scanf': 'SCANF',
+    'printf': 'PRINTF',
+    'main': 'MAIN',
+    'return': 'RETURN'
+}
 
 # Regras para cada token
 t_PLUS = r'\+'
@@ -28,7 +44,6 @@ t_RBRACE = r'}'
 t_COMMA = r','
 t_LBRACKET = r'\['
 t_RBRACKET = r'\]'
-t_DOTDOTDOT = r'\.\.\.'
 t_OROR = r'\|\|'
 t_ANDAND = r'&&'
 t_NOT = r'!'
@@ -50,7 +65,7 @@ t_OROREQUAL = r'\|\|='
 
 #regra pros tipos
 def t_TIPO(t):
-    r'int|float|double|char|boolean|'
+    r'int|float|double|char|boolean'
     t.value = str(t.value)
     return t
 

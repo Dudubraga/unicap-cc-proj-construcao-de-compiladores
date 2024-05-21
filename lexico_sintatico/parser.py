@@ -17,16 +17,14 @@ def p_declaracao(p):
 def p_declaracao_variavel(p):
     """
     declaracao_variavel : tipo ID SEMICOLON
-                        | tipo ID = expressao SEMICOLON
+                        | tipo ID EQUAL expressao SEMICOLON
     """
     
 def p_tipo(p):
     """
-    tipo : int
-         | float
-         | double
-         | char
-         | boolean
+    tipo : NUM_INT
+         | NUM_DEC
+         | TEXTO
     """
 
 def p_declaracao_funcao(p):
@@ -36,8 +34,8 @@ def p_declaracao_funcao(p):
 
 def p_parametros(p):
     """
-    parametros : parametro
-               | parametro COMMA parametro
+    parametros : parametros
+               | parametros COMMA parametros
                | tipo ID
                | tipo ID LBRACKET RBRACKET
     """
@@ -90,14 +88,14 @@ def p_estrutura_controle(p):
 
 def p_declaracao_estrutura(p):
     """
-    declaracao_estrutura : struct ID LBRACE declaracao_variavel RBRACE
+    declaracao_estrutura : STRUCT ID LBRACE declaracao_variavel RBRACE
     """
     
 def p_array(p):
     """
     array : ID LBRACKET expressao RBRACKET
           | ID LBRACKET RBRACKET
-          | ID LBRACE expressao_lista RBRACE
+          | ID LBRACE expressoes RBRACE
     """
 
 def p_expressao(p):
@@ -156,7 +154,7 @@ def p_expressao_postfix(p):
 
 def p_argumentos(p):
     """
-    argumentos : expressao_lista
+    argumentos : expressoes
                | 
     """
 
@@ -170,4 +168,4 @@ def p_primaria(p):
     """
 
 #criando analisador sintatico
-parser = yacc.yacc()
+sintatico = yacc.yacc()
