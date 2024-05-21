@@ -4,8 +4,8 @@ from parser import sintatico
 
 data = """
     int main(){
-        int rafael;
-        rafael = 10;
+        int a;
+        a = 10;
         return 0;
     }
     """
