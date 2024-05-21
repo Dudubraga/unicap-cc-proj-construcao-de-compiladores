@@ -3,7 +3,7 @@ from ply import lex
 # Lista de tokens
 tokens = (
     'ID', 'TIPO', 'NUM_INT', 'NUM_DEC', 'TEXTO',
-    'SEMICOLON', 'DOT', 'COMMA', 
+    'SEMICOLON', 'DOT', 'COMMA','PLUSPLUS','MINUSMINUS',
     'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'EQUALS', 'MODULO', 
     'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACKET', 'RBRACKET',
     'OROR', 'ANDAND', 'NOT', 'GREATER', 'LESS', 'GREATEREQUAL', 'LESSEQUAL', 'NOTEQUAL', 'EQUAL',
@@ -14,6 +14,8 @@ tokens = (
 
 # Regras para cada token
 t_PLUS = r'\+'
+t_PLUSPLUS = r'\+\+'
+t_MINUSMINUS = r'\-\-'
 t_MINUS = r'-'
 t_TIMES = r'\*'
 t_DIVIDE = r'/'

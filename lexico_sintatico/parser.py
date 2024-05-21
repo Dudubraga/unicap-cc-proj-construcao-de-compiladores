@@ -50,7 +50,8 @@ def p_bloco(p):
     
 def p_comentario(p):
     """
-
+    comentario : COMMENT
+               | MULTICOMMENT
     """
 
 def p_expressoes(p):
@@ -80,19 +81,23 @@ def p_atribuicao(p):
     
 def p_estrutura_controle(p):
     """
-    estrutura_controle : IF LPAREN expressao RPAREN 
+    estrutura_controle : IF LPAREN expressao RPAREN bloco
+                       | IF LPAREN expressao RPAREN ELSE bloco
+                       | WHILE LPAREN expressao RPAREN bloco
+                       | FOR LPAREN expressao SEMICOLON expressao SEMICOLON expressao RPAREN bloco
+                       | RETURN expressao
     """
 
 def p_declaracao_estrutura(p):
     """
-    declaracao_estrutura : struct ID { declaracao_variavel }
+    declaracao_estrutura : struct ID LBRACE declaracao_variavel RBRACE
     """
     
 def p_array(p):
     """
-    array : ID [ expressao ]
-          | ID [ ]
-          | ID { expressao_lista }
+    array : ID LBRACKET expressao RBRACKET
+          | ID LBRACKET RBRACKET
+          | ID LBRACE expressao_lista RBRACE
     """
 
 def p_expressao(p):
@@ -103,50 +108,50 @@ def p_expressao(p):
 def p_expressao_logica(p):
     """
     expressao_logica : expressao_relacional
-                     | expressao_logica && expressao_relacional
-                     | expressao_logica || expressao_relacional
+                     | expressao_logica ANDAND expressao_relacional
+                     | expressao_logica OROR expressao_relacional
     """
 
 def p_expressao_relacional(p):
     """
     expressao_relacional : expressao_aritmetica
-                         | expressao_aritmetica >
-                         | expressao_aritmetica >=
-                         | expressao_aritmetica <
-                         | expressao_aritmetica <=
-                         | expressao_aritmetica !=
-                         | expressao_aritmetica ==
+                         | expressao_aritmetica GREATER expressao_aritmetica
+                         | expressao_aritmetica GREATEREQUAL expressao_aritmetica
+                         | expressao_aritmetica LESS expressao_aritmetica
+                         | expressao_aritmetica LESSEQUAL expressao_aritmetica
+                         | expressao_aritmetica NOTEQUAL expressao_aritmetica
+                         | expressao_aritmetica EQUALS expressao_aritmetica
     """
 
 def p_expressao_aritmetica(p):
     """
     expressao_aritmetica : expressao_multiplicativa
-                         | expressao_aritmetica + expressao_multiplicativa
-                         | expressao_aritmetica - expressao_multiplicativa
+                         | expressao_aritmetica PLUS expressao_multiplicativa
+                         | expressao_aritmetica MINUS expressao_multiplicativa
     """
 
 def p_expressao_multiplicativa(p):
     """
     expressao_multiplicativa : expressao_unaria
-                             | expressao_multiplicativa * expressao_unaria
-                             | expressao_multiplicativa / expressao_unaria
-                             | expressao_multiplicativa % expressao_unaria
+                             | expressao_multiplicativa TIMES expressao_unaria
+                             | expressao_multiplicativa DIVIDE expressao_unaria
+                             | expressao_multiplicativa MODULO expressao_unaria
     """
 
 def p_expressao_unaria(p):
     """
     expressao_unaria : expressao_postfix
-                     | -expressao_unaria
-                     | ++ expressao_postfix
-                     | -- expressao_postfix
+                     | MINUS expressao_unaria
+                     | PLUSPLUS expressao_postfix
+                     | MINUSMINUS expressao_postfix
     """
 
 def p_expressao_postfix(p):
     """
     expressao_postfix : primaria
-                      | primaria [ expressao ]
-                      | primaria ( argumentos )
-                      | primaria . ID
+                      | primaria LBRACKET expressao RBRACKET
+                      | primaria LPAREN argumentos RPAREN
+                      | primaria DOT ID
     """
 
 def p_argumentos(p):
@@ -161,5 +166,8 @@ def p_primaria(p):
              | NUM_INT
              | NUM_DEC
              | TEXTO
-             | ( expressao )
+             | LPAREN expressao RPAREN
     """
+
+#criando analisador sintatico
+parser = yacc.yacc()
