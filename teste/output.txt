@@ -1,0 +1,89 @@
+Lista de Regras:
+
+Programa : Declaracao
+Declaracao : DeclaracaoVariavel
+Declaracao : DeclaracaoFuncao
+Declaracao : DeclaracaoEstrutura
+Declaracao : Comentario
+DeclaracaoVariavel : Tipo ID
+DeclaracaoVariavel : Tipo ID = Expressao
+Tipo : int
+Tipo : float
+Tipo : double
+Tipo : char
+Tipo : boolean
+DeclaracaoFuncao : Tipo ID ( Parametros ) Bloco
+Parametros : Parametro
+Parametros : Parametro, Parametros
+Parametros : Tipo ID
+Parametros : Tipo ID []
+Parametros : Tipo ... ID
+Bloco : { Declaracao }
+Comentario : // Qualquer texto ate o final da linha
+Comentario : /* Qualquer texto ate */
+Expressoes : Atribuicao
+Atribuicao : D = Expressao
+Atribuicao : ID += Expressao
+Atribuicao : ID -= Expressao
+Atribuicao : ID *= Expressao
+Atribuicao : ID /= Expressao
+Atribuicao : D %= Expressao
+Atribuicao : ID &&= Expressao
+Atribuicao :  ID ||= Expressao
+Atribuicao : ID = ID
+Atribuicao : ID += ID
+Atribuicao : ID -= ID
+Atribuicao : ID *= ID
+Atribuicao : ID /= ID
+Atribuicao : D %= ID
+Atribuicao : ID &&= ID
+Atribuicao : ID ||= ID
+EstruturaControle : if ( Expressao ) Bloco
+EstruturaControle : if ( Expressao ) Bloco else Bloco
+EstruturaControle : while ( Expressao ) Bloco
+EstruturaControle : for ( Expressao ; Expressao ; Expressao ) Bloco
+EstruturaControle : switch ( Expressao ) CaseLista
+EstruturaControle : CaseDecl
+EstruturaControle : case Expressao : Bloco
+EstruturaControle : break ;
+EstruturaControle : continue ;
+EstruturaControle : return Expressao ;
+DeclaracaoEstrutura : struct ID { DeclaracaoVariavel }
+Array : ID [ Expressao ]
+Array : ID [ ]
+Array : { ExpressaoLista }
+Expressao : ExpressaoLogica
+ExpressaoLogica : ExpressaoRelacional
+ExpressaoLogica : ExpressaoLogica && ExpressaoRelacional
+ExpressaoLogica : ExpressaoLogica || ExpressaoRelacional
+ExpressaoLogica : ! ExpressaoRelacional
+ExpressaoRelacional : ExpressaoAritmetica
+ExpressaoRelacional : ExpressaoAritmetica > ExpressaoAritmetica
+ExpressaoRelacional : ExpressaoAritmetica >= ExpressaoAritmetica
+ExpressaoRelacional : ExpressaoAritmetica < ExpressaoAritmetica
+ExpressaoRelacional : ExpressaoAritmetica <= ExpressaoAritmetica
+ExpressaoRelacional : ExpressaoAritmetica != ExpressaoAritmetica
+ExpressaoRelacional : ExpressaoAritmetica == ExpressaoAritmetica
+ExpressaoAritmetica : ExpressaoMultiplicativa
+ExpressaoAritmetica : ExpressaoAritmetica + ExpressaoMultiplicativa
+ExpressaoAritmetica : ExpressaoAritmetica - ExpressaoMultiplicativa
+ExpressaoMultiplicativa : ExpressaoUnaria
+ExpressaoMultiplicativa : ExpressaoMultiplicativa * ExpressaoUnaria
+ExpressaoMultiplicativa : ExpressaoMultiplicativa / ExpressaoUnaria
+ExpressaoMultiplicativa : ExpressaoMultiplicativa % ExpressaoUnaria
+ExpressaoUnaria : ExpressaoPostfix
+ExpressaoUnaria : -ExpressaoUnaria
+ExpressaoUnaria : ++ ExpressaoPostfix
+ExpressaoUnaria : -- ExpressaoPostfix
+ExpressaoPostfix : Primaria
+ExpressaoPostfix : Primaria [ Expressao ]
+ExpressaoPostfix : Primaria ( Argumentos )
+ExpressaoPostfix : Primaria . ID
+ExpressaoPostfix : Primaria -> ID
+Argumentos : ExpressaoLista
+Argumentos : vazio
+Primaria : ID
+Primaria : NUM_INT
+Primaria : NUM_DEC
+Primaria : TEXTO
+Primaria : ( Expressao )
