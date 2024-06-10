@@ -3,11 +3,7 @@ from parser import sintatico
 
 
 data = """
-    int main(){
-        int a;
-        a = 10;
-        return 0;
-    }
+    ++i;
     """
 
 lexico.input(data)
